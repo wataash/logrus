@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// implements logrus.Hook
 type DefaultFieldHook struct {
 	GetValue func() string
 }
@@ -19,11 +20,17 @@ func (h *DefaultFieldHook) Fire(e *logrus.Entry) error {
 }
 
 func ExampleDefaultField() {
+	// os.Stdout = os.Stderr
+
 	l := logrus.New()
 	l.Out = os.Stdout
 	l.Formatter = &logrus.TextFormatter{DisableTimestamp: true, DisableColors: true}
 
 	l.AddHook(&DefaultFieldHook{GetValue: func() string { return "with its default value" }})
+	l.AddHook(&DefaultFieldHook{
+		GetValue: func() string {
+			return "with its default value"
+		}})
 	l.Info("first log")
 	// Output:
 	// level=info msg="first log" aDefaultField="with its default value"

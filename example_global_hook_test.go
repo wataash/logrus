@@ -13,6 +13,7 @@ type GlobalHook struct {
 }
 
 func (h *GlobalHook) Levels() []logrus.Level {
+	// return []logrus.Level{logrus.WarnLevel} // Fire only on l.Warning
 	return logrus.AllLevels
 }
 
@@ -22,6 +23,8 @@ func (h *GlobalHook) Fire(e *logrus.Entry) error {
 }
 
 func ExampleGlobalVariableHook() {
+	// os.Stdout = os.Stderr
+
 	l := logrus.New()
 	l.Out = os.Stdout
 	l.Formatter = &logrus.TextFormatter{DisableTimestamp: true, DisableColors: true}
@@ -30,6 +33,7 @@ func ExampleGlobalVariableHook() {
 	l.Info("first log")
 	mystring = "another value"
 	l.Info("second log")
+	// l.Warning("third log")
 	// Output:
 	// level=info msg="first log" mystring="first value"
 	// level=info msg="second log" mystring="another value"

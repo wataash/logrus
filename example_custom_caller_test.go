@@ -10,6 +10,8 @@ import (
 )
 
 func ExampleCustomFormatter() {
+	// os.Stdout = os.Stderr
+
 	l := logrus.New()
 	l.SetReportCaller(true)
 	l.Out = os.Stdout
